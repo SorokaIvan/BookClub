@@ -1,0 +1,27 @@
+﻿@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<form style="margin:100px; margin-top:20px" asp-action="Login">
+    @Html.HiddenFor(x=> x.ReturnUrl)
+    <h1>Вход</h1>
+    <div style="font-size:23px; font-family:Impact">
+        <div>
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+        <div>
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+    <div style="width:40%">
+        <label for="text" class="form-label">Введите логин</label>
+        <input type="text" class="form-control" name="username" placeholder="Логин" />
+    </div>
+    <div style="width:40%">
+        <label for="exampleInputPassword1" class="form-label">Введите пороль</label>
+        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Пароль" />
+    </div>
+    <button type="submit" class="btn btn-primary position-button">Войти</button>
+</form>

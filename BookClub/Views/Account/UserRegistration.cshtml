@@ -1,0 +1,40 @@
+﻿@model UserModel
+
+@{
+    ViewData["Title"] = "UserRegistration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="position-block">
+    @using (Html.BeginForm())
+    {
+        <div style="width:40%">
+            <div style="font-size:23px; font-family:Impact">
+                <div>
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </div>
+            </div>
+            <div>
+                <label type="text" class="form-label">Введите Логин</label>
+                @Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
+            </div>
+            <div>
+                <label type="text" class="form-label">Введите Пароль</label>
+                @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
+            </div>
+            <div>
+                <label type="text" class="form-label">Выберете роль на сайте</label>
+                <select class="form-select form-control" aria-label="Default select example" asp-for="Role">
+                    <option selected value="User">User</option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px">Зарегестрироваться</button>
+            </div>
+        </div>
+    }
+</div>
+

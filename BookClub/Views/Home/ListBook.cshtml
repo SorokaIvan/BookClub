@@ -1,0 +1,29 @@
+﻿@model List<BookModel>
+@{
+    ViewData["Title"] = "ListBook";
+}
+
+<div>
+    @foreach (var item in Model)
+    {
+        <div class="card mb-3 position-button-block" style="max-width: 1000px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@item.Img" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.TitleBook</h5>
+                        <p class="card-text">Автор:  @item.Author</p>
+                        <p class="card-text">Описание:  @item.Description</p>
+                        <p class="card-text">Рейтинг:  @item.Rating / 10</p>
+                        <p class="card-text">Ссылка:  @item.Link</p>
+                        <p class="card-text">Добавил:  @item.UserNameAddBook</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
