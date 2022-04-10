@@ -11,18 +11,21 @@ namespace BookClub.Controllers
     public class AccountController : Controller
     {
         private readonly IConfiguration _config;
-        public List<UserModel> users = null;
 
         public AccountController(IConfiguration config)
         {
             _config = config;
-            users = GetConnection().UserList();
         }
 
-        private DbContext GetConnection()
+        private List<UserModel> GetListUsers()
         {
-            DbContext dbContext = new DbContext(new SqlConnection(_config.GetConnectionString("DefaultConnection")));
-            return dbContext;
+            return UserGetConnection().UserList();
+        }
+
+        private UsersRepository UserGetConnection()
+        {
+            UsersRepository usersRepository = new UsersRepository(new SqlConnection(_config.GetConnectionString("DefaultConnection")));
+            return usersRepository;
         }
 
         public IActionResult ErrorRegistration()
@@ -40,19 +43,12 @@ namespace BookClub.Controllers
         {
             if (ModelState.IsValid)
             {
+                AccountsRepository accountsRepository = new AccountsRepository();
+                var value = accountsRepository.GetUserByName(GetListUsers(), userModel);
 
-
-                bool value = false;
-                foreach (var item in users)
-                {
-                    if (item.UserName == userModel.UserName)
-                    {
-                        value = true;
-                    }
-                }
                 if (value == false)
                 {
-                    GetConnection().AddUser(userModel);
+                    UserGetConnection().AddUser(userModel);
                     return RedirectToAction("Login");
                 }
                 else
@@ -73,7 +69,7 @@ namespace BookClub.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var user = users.Where(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password).FirstOrDefault();
+            var user = GetListUsers().Where(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password).FirstOrDefault();
             if (user != null)
             {
                 var claims = new List<Claim>()

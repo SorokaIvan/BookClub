@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using System.ComponentModel.DataAnnotations;
 
 namespace BookClub.Models
 {
@@ -19,6 +20,8 @@ namespace BookClub.Models
 
         [Range(1, 10, ErrorMessage = "Поставьте рейтинг!")]
         public int Rating { get; set; }
+
+        [ValidateNeverAttribute]
         public string Link { get; set; }
 
         [Required(ErrorMessage = "Вставьте URL ссылку!")]
