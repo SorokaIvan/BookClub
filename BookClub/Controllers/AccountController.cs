@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using System.Security.Claims;
 
 
@@ -10,24 +9,11 @@ namespace BookClub.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IConfiguration _config;
-        public List<UserModel> users = null;
+        private readonly UsersRepository _usersRepository;
 
-        public AccountController(IConfiguration config)
+        public AccountController(UsersRepository usersRepository)
         {
-            _config = config;
-            users = GetConnection().UserList();
-        }
-
-        private DbContext GetConnection()
-        {
-            DbContext dbContext = new DbContext(new SqlConnection(_config.GetConnectionString("DefaultConnection")));
-            return dbContext;
-        }
-
-        public IActionResult ErrorRegistration()
-        {
-            return View();
+            _usersRepository = usersRepository;
         }
 
         public IActionResult UserRegistration()
@@ -40,24 +26,18 @@ namespace BookClub.Controllers
         {
             if (ModelState.IsValid)
             {
+                var allUsers = _usersRepository.UserList();
+                AccountsRepository accountsRepository = new AccountsRepository();
+                var value = accountsRepository.GetUserByLogin(allUsers, userModel);
 
-
-                bool value = false;
-                foreach (var item in users)
-                {
-                    if (item.UserName == userModel.UserName)
-                    {
-                        value = true;
-                    }
-                }
                 if (value == false)
                 {
-                    GetConnection().AddUser(userModel);
+                    _usersRepository.AddUser(userModel);
                     return RedirectToAction("Login");
                 }
                 else
                 {
-                    return RedirectToAction("ErrorRegistration");
+                    ViewBag.Message = "Пользователь с таким логином уже существует!";
                 }
             }
             return View();
@@ -73,13 +53,14 @@ namespace BookClub.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var user = users.Where(u => u.UserName == loginModel.UserName && u.Password == loginModel.Password).FirstOrDefault();
+            var allUsers = _usersRepository.UserList();
+            var user = allUsers.Where(u => u.UserLogin == loginModel.UserLogin && u.Password == loginModel.Password).FirstOrDefault();
             if (user != null)
             {
                 var claims = new List<Claim>()
                 {
                     new Claim(ClaimTypes.NameIdentifier, Convert.ToString(user.UserId)),
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Name, user.UserLogin),
                     new Claim(ClaimTypes.Role, user.Role),
                     new Claim("DotNetMania", "Code")
                 };
@@ -95,7 +76,7 @@ namespace BookClub.Controllers
             }
             else
             {
-                ViewBag.Massage = "Invalid Credential";
+                ViewBag.Message = "Неверный логин или пароль!";
                 return View(loginModel);
             }
         }

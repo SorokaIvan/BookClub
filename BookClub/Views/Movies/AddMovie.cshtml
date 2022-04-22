@@ -1,0 +1,131 @@
+﻿@model MovieModel
+@{
+    ViewData["Title"] = "AddMovie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="position-block">
+    @using (Html.BeginForm())
+    {
+        <div style="color:green; font-size:40px; text-align:center; margin-top:40px;">@ViewBag.MessageCompleted</div>
+        <div>
+            <div style="width:40%">
+                <div style="font-size:23px; font-family:Impact">
+                    <div>
+                        @Html.ValidationMessageFor(m => m.TypeOfVideoContent)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.TitleMovie)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Regisseur)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.ReleaseDate)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.GenreId)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Rating)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Link)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Trailer)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.ImgMovie)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </div>
+                </div>
+                <div style="color:red;">@ViewBag.MessageError</div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Это Фильм или Сериал?</label>
+                    <select class="form-select" aria-label="Default select example" asp-for="TypeOfVideoContent">
+                        <option selected value="">Выберете жанр</option>
+                        <option value="Фильм">Фильм</option>
+                        <option value="Сериал">Сериал</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exampleInputEmail1" class="form-label">Название Фильма / Сериала:</label>
+                    @Html.TextBoxFor(m => m.TitleMovie, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Режиссер:</label>
+                    @Html.TextBoxFor(m => m.Regisseur, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Введите год релиза:</label>
+                    @Html.TextBoxFor(m => m.ReleaseDate, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Жанр Фильма / Сериала:</label>
+                    <select class="form-select" aria-label="Default select example" asp-for="GenreId">
+                        <option selected value="-1">Выберете жанр</option>
+                        <option value="1">Аниме</option>
+                        <option value="2">Боевик</option>
+                        <option value="3">Вестерн</option>
+                        <option value="4">Детектив</option>
+                        <option value="5">Документальный</option>
+                        <option value="6">Драма</option>
+                        <option value="7">Исторический</option>
+                        <option value="8">Комедия</option>
+                        <option value="9">Короткометражный</option>
+                        <option value="10">Криминал</option>
+                        <option value="11">Мелодрама</option>
+                        <option value="12">Мультфильм</option>
+                        <option value="13">Научный</option>
+                        <option value="14">Приключения</option>
+                        <option value="15">Семейный</option>
+                        <option value="16">Триллер</option>
+                        <option value="17">Ужасы</option>
+                        <option value="18">Фантастика</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Ваш рейтинг Фильма / Сериала:</label>
+                    <select class="form-select" aria-label="Default select example" asp-for="Rating">
+                        <option selected value="-1">Выберете рейтинг</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Ссылка для просмотра:</label>
+                    @Html.TextBoxFor(m => m.Link, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Вставьте ссылку на трейлер:</label>
+                    @Html.TextBoxFor(m => m.Trailer, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Прикрепите картинку Фильма / Сериала (URL картинки):</label>
+                    @Html.TextBoxFor(m => m.ImgMovie, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleFormControlTextarea1" class="form-label">Краткое описание Фильма / Сериала:</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="Description"></textarea>
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label" asp-route-UserNameAddMovie="@User.Identity">Фильма / Сериал добавил: <b>@User.Identity.Name</b></label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px" asp-route-UserNameAddMovie="@User.Identity.Name">Добавить</button>
+            </div>
+        </div>
+    }
+</div>
+

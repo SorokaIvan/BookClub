@@ -1,0 +1,87 @@
+﻿@model BookModel
+@{
+    ViewData["Title"] = "EditBook";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="position-block">
+    @using (Html.BeginForm())
+    {
+        <div style="color:green; font-size:40px; text-align:center; margin-top:40px;">@ViewBag.MessageCompletedEditBook</div>
+        <div>
+            <div style="width:40%">
+                <div style="font-size:23px; font-family:Impact">
+                    <div>
+                        @Html.ValidationMessageFor(m => m.GenreId)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.TitleBook)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Author)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Rating)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Img)
+                    </div>
+                    <div>
+                        @Html.ValidationMessageFor(m => m.Description)
+                    </div>
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Жанр книги</label>
+                    <select class="form-select" aria-label="Default select example" asp-for="GenreId">
+                        <option selected value="-1">Выберете жанр</option>
+                        <option value="1">Фэнтези</option>
+                        <option value="2">Детектив</option>
+                        <option value="3">Научная литература</option>
+                        <option value="4">История</option>
+                        <option value="5">Биография</option>
+                        <option value="6">Драма</option>
+                        <option value="7">Боевик</option>
+                        <option value="8">Психология</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exampleInputEmail1" class="form-label">Название книги</label>
+                    @Html.TextBoxFor(m => m.TitleBook, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Автор</label>
+                    @Html.TextBoxFor(m => m.Author, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Ваш рейтинг книги</label>
+                    <select class="form-select" aria-label="Default select example" asp-for="Rating">
+                        <option selected value="-1">Выберете рейтинг</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Ссылка для скачивания (или онлайн чтения)</label>
+                    @Html.TextBoxFor(m => m.Link, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleInputPassword1" class="form-label">Прикрепите картинку книги (URL картинки)</label>
+                    @Html.TextBoxFor(m => m.Img, new {@class = "form-control"})
+                </div>
+                <div>
+                    <label for="exampleFormControlTextarea1" class="form-label">Краткое описание книги</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="Description"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px" asp-route-BookId="@Model.BookId" asp-route-UserNameAddBook="@User.Identity.Name">Изменить</button>
+            </div>
+        </div>
+    }
+</div>

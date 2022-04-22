@@ -1,0 +1,265 @@
+﻿@model UserPageViewModel
+@{
+    ViewData["Title"] = "UserPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int numberBooks = 0;
+    int numberFilms = 0;
+    int numberSerials = 0;
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="margin-top:60px;">
+        <h1>Моя Страница</h1>
+        <br>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Профиль</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Мои Книги</button>
+                <button class="nav-link" id="nav-films-tab" data-bs-toggle="tab" data-bs-target="#nav-films" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Мои Фильмы</button>
+                <button class="nav-link" id="nav-serials-tab" data-bs-toggle="tab" data-bs-target="#nav-serials" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Мои Сериалы</button>
+                <button class="nav-link" id="nav-games-tab" data-bs-toggle="tab" data-bs-target="#nav-games" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Мои Игры</button>
+            </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <ol class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Логин:</div>
+                            @Model.User.UserLogin
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Имя:</div>
+                            @Model.User.UserName
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Пол:</div>
+                            @Model.User.UserGender
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                            <div class="fw-bold">Дата Рождения:</div>
+                            @Model.User.DateOfBirth.ToShortDateString()
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                @if (Model.books.Count > 0)
+                {
+                    <table class="table caption-top">
+                        <caption>Всего добавлено книг: @Model.books.Count</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Название Книги</th>
+                                <th scope="col">Автор</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.books)
+                            {
+                                <tr>
+                                    @{
+                                        numberBooks++;
+                                        string id = $"exampleBook{numberBooks}";
+                                    }
+                                    <th scope="row">@numberBooks</th>
+                                    <td>@item.TitleBook</td>
+                                    <td>@item.Author</td>
+                                    <td><a class="btn btn-primary btn-sm" role="button" asp-controller="UserPage" asp-action="AddEditBook" asp-route-id="@item.BookId">Редактировать</a></td>
+                                    <td><a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#@id">Удалить</a></td>
+
+
+
+                                    <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Подтвердить</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">Вы хотите удалить книгу @item.TitleBook?</div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                                    <a class="btn btn-primary" role="button" asp-controller="UserPage" asp-action="DeleteBook" asp-route-titleBook="@item.TitleBook">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div style="white-space: nowrap;">
+                        <h3>Вы не добавиляли книги!</h3>
+                    </div>
+                }
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div class="tab-pane fade" id="nav-films" role="tabpanel" aria-labelledby="nav-contact-tab">
+                @if (Model.Films.Count > 0)
+                {
+                    <table class="table caption-top">
+                        <caption>Всего добавлено Фильмов: @Model.Films.Count</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Название Фильма</th>
+                                <th scope="col">Режиссер</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Films)
+                            {
+                                <tr>
+                                    @{
+                                        numberFilms++;
+                                        string id = $"exampleFilm{numberFilms}";
+                                    }
+                                    <th scope="row">@numberFilms</th>
+                                    <td>@item.TitleMovie</td>
+                                    <td>@item.Regisseur</td>
+                                    <td><a class="btn btn-primary btn-sm" role="button" asp-controller="UserPage" asp-action="AddEditMovie" asp-route-id="@item.MovieId">Редактировать</a></td>
+                                    <td><a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#@id">Удалить</a></td>
+
+
+
+                                    <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Подтвердить</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">Вы хотите удалить фильм @item.TitleMovie?</div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                                    <a class="btn btn-primary" role="button" asp-controller="UserPage" asp-action="DeleteMovie" asp-route-titleMovie="@item.TitleMovie" asp-route-typeMovie="@item.TypeOfVideoContent">Удалить</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div style="white-space: nowrap;">
+                        <h3>Вы не добавиляли фильмы!</h3>
+                    </div>
+                }
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <div class="tab-pane fade" id="nav-serials" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    @if (Model.Serials.Count > 0)
+                    {
+                        <table class="table caption-top">
+                            <caption>Всего добавлено Сериалов: @Model.Serials.Count</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Название Сериала</th>
+                                    <th scope="col">Режиссер</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.Serials)
+                                {
+                                    <tr>
+                                        @{
+                                            numberSerials++;
+                                            string id = $"exampleSerial{numberSerials}";
+                                        }
+                                        <th scope="row">@numberSerials</th>
+                                        <td>@item.TitleMovie</td>
+                                        <td>@item.Regisseur</td>
+                                        <td><a class="btn btn-primary btn-sm" role="button" asp-controller="UserPage" asp-action="AddEditMovie" asp-route-id="@item.MovieId">Редактировать</a></td>
+                                        <td><a type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#@id">Удалить</a></td>
+
+
+
+                                        <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Подтвердить</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">Вы хотите удалить сериал @item.TitleMovie?</div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                                                        <a class="btn btn-primary" role="button" asp-controller="UserPage" asp-action="DeleteMovie" asp-route-titleMovie="@item.TitleMovie" asp-route-typeMovie="@item.TypeOfVideoContent">Удалить</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div style="white-space: nowrap;">
+                            <h3>Вы не добавиляли сериалы!</h3>
+                        </div>
+                    }
+                </div>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="tab-pane fade" id="nav-games" role="tabpanel" aria-labelledby="nav-contact-tab">Функция не реализована</div>
+        </div>
+    </div>
+}
+else
+{
+    <h3 class="title-side title-side-center">Нет доступа!</h3>
+}
+

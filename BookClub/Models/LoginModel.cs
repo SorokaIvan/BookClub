@@ -6,7 +6,7 @@ namespace BookClub.Models
     {
         [Required(ErrorMessage = "Введите Логин!")]
         [Display(Name = "UserName")]
-        public string UserName { get; set; }
+        public string UserLogin{ get; set; }
         [Required(ErrorMessage = "Введите пароль!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
