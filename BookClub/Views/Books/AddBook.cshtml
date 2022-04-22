@@ -8,11 +8,12 @@
 <div class="position-block">
     @using (Html.BeginForm())
     {
-        <form>
+        <div style="color:green; font-size:40px; text-align:center; margin-top:40px;">@ViewBag.MessageCompleted</div>
+        <div>
             <div style="width:40%">
                 <div style="font-size:23px; font-family:Impact">
                     <div>
-                        @Html.ValidationMessageFor(m => m.StyleId)
+                        @Html.ValidationMessageFor(m => m.GenreId)
                     </div>
                     <div>
                         @Html.ValidationMessageFor(m => m.TitleBook)
@@ -30,9 +31,10 @@
                         @Html.ValidationMessageFor(m => m.Description)
                     </div>
                 </div>
+                <div style="color:red;">@ViewBag.MessageError</div>
                 <div>
                     <label for="exampleInputPassword1" class="form-label">Жанр книги</label>
-                    <select class="form-select" aria-label="Default select example" asp-for="StyleId">
+                    <select class="form-select" aria-label="Default select example" asp-for="GenreId">
                         <option selected value="-1">Выберете жанр</option>
                         <option value="1">Фэнтези</option>
                         <option value="2">Детектив</option>
@@ -73,7 +75,7 @@
                     @Html.TextBoxFor(m => m.Link, new {@class = "form-control"})
                 </div>
                 <div>
-                    <label for="exampleInputPassword1" class="form-label">Прикрепити картинку книги (URL картинки)</label>
+                    <label for="exampleInputPassword1" class="form-label">Прикрепите картинку книги (URL картинки)</label>
                     @Html.TextBoxFor(m => m.Img, new {@class = "form-control"})
                 </div>
                 <div>
@@ -81,13 +83,10 @@
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" asp-for="Description"></textarea>
                 </div>
                 <div>
-                    <label for="exampleInputPassword1" class="form-label">Книгу добавил</label>
-                    <select class="form-select" aria-label="Default select example" asp-for="UserNameAddBook">
-                        <option selected value="@User.Identity.Name">@User.Identity.Name</option>
-                    </select>
+                    <label for="exampleInputPassword1" class="form-label" asp-route-UserNameAddBook="@User.Identity">Книгу добавил: <b>@User.Identity.Name</b></label>
                 </div>
-                <button type="submit" class="btn btn-primary" style="margin-top:20px">Добавить</button>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px" asp-route-UserNameAddBook="@User.Identity.Name">Добавить</button>
             </div>
-        </form>
+        </div>
     }
 </div>

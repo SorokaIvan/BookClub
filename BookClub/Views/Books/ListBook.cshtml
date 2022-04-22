@@ -1,6 +1,7 @@
 ﻿@model List<BookModel>
 @{
     ViewData["Title"] = "ListBook";
+    Model.Reverse();
 }
 
 <div>
@@ -15,6 +16,7 @@
                     <div class="card-body">
                         <h5 class="card-title">@item.TitleBook</h5>
                         <p class="card-text">Автор:  @item.Author</p>
+                        <p class="card-text">Жанр:  @item.Genre</p>
                         <p class="card-text">Описание:  @item.Description</p>
                         <p class="card-text">Рейтинг:  @item.Rating / 10</p>
                         <p class="card-text">Ссылка:  @item.Link</p>

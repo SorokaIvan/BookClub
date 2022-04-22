@@ -1,6 +1,11 @@
+using BookClub;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<BooksRepository>();
+builder.Services.AddSingleton<UsersRepository>();
+builder.Services.AddSingleton<MovieRepository>();
+builder.Services.AddSingleton<GenreReposytory>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

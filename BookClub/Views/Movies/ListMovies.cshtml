@@ -1,0 +1,62 @@
+﻿@model List<MovieModel>
+@{
+    ViewData["Title"] = "ListMovies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Model.Reverse();
+    int number = 0;
+}
+
+
+<div>
+
+    @foreach (var item in Model)
+    {
+        <div>
+            @{
+                number++;
+                string id = $"exampleModal{number}";
+            }
+        </div>
+
+
+
+
+        <div class="card mb-3 position-button-block" style="max-width: 1000px;">
+
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@item.ImgMovie" class="img-fluid rounded-start" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.TypeOfVideoContent</h5>
+                        <h5 class="card-title">@item.TitleMovie</h5>
+                        <p class="card-text">Режиссер:  @item.Regisseur</p>
+                        <p class="card-text">Жанр:  @item.Genre</p>
+                        <p class="card-text">Год релиза:  @item.ReleaseDate</p>
+                        <p class="card-text">Описание:  @item.Description</p>
+                        <p class="card-text">Рейтинг:  @item.Rating / 10</p>
+                        <p class="card-text">Ссылка на просмотр:  @item.Link</p>
+                        <p class="card-text">Добавил:  @item.UserNameAddMovie</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@id">
+                            Смотреть трейлер
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="@id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width:118%;">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">@item.TitleMovie</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe width="560" height="315" src="@item.Trailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

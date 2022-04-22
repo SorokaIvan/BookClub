@@ -1,0 +1,84 @@
+﻿@model AdminPageViewModel
+@{
+    ViewData["Title"] = "AdminPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div style="margin-top:60px;">
+        <h1>Админ меню</h1>
+        <br />
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Профиль</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Зарегистрированные пользователи</button>
+                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Количество добавленных книг</button>
+            </div>
+        </nav>
+        <div class="tab-content position-block" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Логин: <u><b>@User.Identity.Name</b></u></div>
+            <table class="table caption-top tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <caption>Всего Пользователей: <b>@Model.Users.Count</b></caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Логин</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Книги</th>
+                        <th scope="col">Фильмовы</th>
+                        <th scope="col">Сериалы</th>
+                        <th scope="col">Игры</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Users)
+                    {
+                        <tr>
+                            <th scope="row">@item.UserId</th>
+                            <td>@item.UserLogin</td>
+                            <td>@item.UserName</td>
+                            @if (item.BooksCount != 0)
+                            {
+                                <td align="center">@item.BooksCount</td>
+                            }
+                            else
+                            {
+                                <td align="center"></td>
+                            }
+                            @if (item.FilmsCount != 0)
+                            {
+                                <td align="center">@item.FilmsCount</td>
+                            }
+                            else
+                            {
+                                <td align="center"></td>
+                            }
+                            @if (item.SerialsCount != 0)
+                            {
+                                <td align="center">@item.SerialsCount</td>
+                            }
+                            else
+                            {
+                                <td align="center"></td>
+                            }
+                            @if (item.GamesCount != 0)
+                            {
+                                <td align="center">@item.GamesCount</td>
+                            }
+                            else
+                            {
+                                <td align="center"></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><b>@Model.Books.Count</b> добавленных книг</div>
+        </div>
+    </div>
+}
+else
+{
+    <h3 class="title-side title-side-center">Нет доступа!</h3>
+}

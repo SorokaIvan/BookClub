@@ -6,33 +6,55 @@
 }
 
 <div class="position-block">
+    <h1>Регистрация</h1>
     @using (Html.BeginForm())
     {
         <div style="width:40%">
             <div style="font-size:23px; font-family:Impact">
                 <div>
+                    @Html.ValidationMessageFor(m => m.UserLogin)
+                </div>
+                <div>
                     @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(m => m.UserGender)
+                </div>
+                <div>
+                    @Html.ValidationMessageFor(m => m.DateOfBirth)
                 </div>
                 <div>
                     @Html.ValidationMessageFor(m => m.Password)
                 </div>
             </div>
+            <div style="color:red;">@ViewBag.Message</div>
             <div>
-                <label type="text" class="form-label">Введите Логин</label>
+                <label type="text" class="form-label">Введите Логин:</label>
+                @Html.TextBoxFor(m => m.UserLogin, new {@class = "form-control"})
+            </div>
+            <div>
+                <label type="text" class="form-label">Введите Имя:</label>
                 @Html.TextBoxFor(m => m.UserName, new {@class = "form-control"})
             </div>
             <div>
-                <label type="text" class="form-label">Введите Пароль</label>
+                <label type="text" class="form-label">Выберете Пол:</label>
+                <select class="form-select form-control" aria-label="Default select example" asp-for="UserGender">
+                    <option selected value="Мужской">Мужской</option>
+                    <option selected value="Женский">Женский</option>
+                </select>
+            </div>
+            <br>
+            <div>
+                <label type="text" class="form-label">Введите дату рождения:</label>
+                @Html.EditorFor(m => m.DateOfBirth, new {@class = "form-control"})
+            </div>
+            <br>
+            <div>
+                <label type="text" class="form-label">Введите Пароль:</label>
                 @Html.PasswordFor(m => m.Password, new {@class = "form-control"})
             </div>
             <div>
-                <label type="text" class="form-label">Выберете роль на сайте</label>
-                <select class="form-select form-control" aria-label="Default select example" asp-for="Role">
-                    <option selected value="User">User</option>
-                </select>
-            </div>
-            <div>
-                <button type="submit" class="btn btn-primary" style="margin-top:20px">Зарегестрироваться</button>
+                <button type="submit" class="btn btn-primary" style="margin-top:20px">Зарегистрироваться</button>
             </div>
         </div>
     }
